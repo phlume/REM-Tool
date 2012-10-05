@@ -18,6 +18,7 @@
     var count = 1;
     var ampscript_html = "";
     var history = new Array();
+    history.push({'ampscript_html': ampscript_html, 'is_counted': true});
 
     $('#variable').click(add_variable);
     $('#anchor').click(add_anchor);
@@ -66,7 +67,7 @@
       previous_action = history[history.length-1];
       var is_counted = previous_action.is_counted;
       var prev_ampscript_html = previous_previous_action.ampscript_html;
-      alert(is_counted);
+      //alert(is_counted);
       if (is_counted) {
         count--;
       }
