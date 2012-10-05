@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8 />
+	<title>Rapid Email Builder</title>
+  <style>
+    .clear {
+      clear:both;
+      }
+  </style>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	<!--[if IE]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+  <script type="text/javascript">
+  $(document).ready(function(){
+    //alert('test');
+    var count = 1;
+    var ampscript_html = "";
+    var history = new Array();
+    $('#variable').click(function(){
+      ampscript_html = ampscript_html + "%%=v(@Body"+count+")=%%"
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html': ampscript_html, 'is_counted': true});
+      count++;
+    });
+    $('#anchor').click(function(){
+      var anchor = '<a href="%%=RedirectTo(@UrlBody' + count + ')=%%">'+ '%%=v(@Body' + count +')=%%</a>';
+      ampscript_html = ampscript_html + anchor;
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html': ampscript_html, 'is_counted': true});
+      count++;
+    });
+    $('#paragraph').click(function(){
+      ampscript_html = ampscript_html + "\n<br><br>\n\n";
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html':ampscript_html, 'is_counted': false});      
+    });
+    $('#bold').click(function(){
+      var anchor = '<strong>'+'%%=v(@Body' + count +')=%%</strong>';
+      ampscript_html = ampscript_html + anchor;
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html': ampscript_html, 'is_counted': true});      
+      count++;
+    });
+    $('#undo').click(function(){
+      
+      //alert(history.length);
+      obj = history[history.length-2];
+      var is_counted = obj.is_counted;
+      var prev_ampscript_html = obj.ampscript_html;
+      
+      if (is_counted) {
+        count--;
+      }
+
+      ampscript_html = prev_ampscript_html;
+      //alert(is_counted + ampscript_html);
+      //alert(count + ampscript_html);
+      history.pop()
+      $('#box').val(prev_ampscript_html);
+    })
+  });
+  </script>
+</head>
+<body>
+<h1>REM Tool</h1>
+  <a href="#" id="variable">Variable</a>
+  <a href="#" id="anchor">Anchor</a>
+  <a href="#" id="bold">Bold</a>
+  <a href="#" id="paragraph">Paragraph</a>
+  <a href="#" id="undo">Undo</a>
+  <div class="clear"></div>
+	<textarea id="box" cols="100" rows="100"></textarea>
+</body>
+</html>
