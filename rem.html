@@ -18,31 +18,10 @@
     var count = 1;
     var ampscript_html = "";
     var history = new Array();
-    $('#variable').click(function(){
-      ampscript_html = ampscript_html + "%%=v(@Body"+count+")=%%"
-      $('#box').val(ampscript_html);
-      history.push({'ampscript_html': ampscript_html, 'is_counted': true});
-      count++;
-    });
-    $('#anchor').click(function(){
-      var anchor = '<a href="%%=RedirectTo(@UrlBody' + count + ')=%%">'+ '%%=v(@Body' + count +')=%%</a>';
-      ampscript_html = ampscript_html + anchor;
-      $('#box').val(ampscript_html);
-      history.push({'ampscript_html': ampscript_html, 'is_counted': true});
-      count++;
-    });
-    $('#paragraph').click(function(){
-      ampscript_html = ampscript_html + "\n<br><br>\n\n";
-      $('#box').val(ampscript_html);
-      history.push({'ampscript_html':ampscript_html, 'is_counted': false});      
-    });
-    $('#bold').click(function(){
-      var anchor = '<strong>'+'%%=v(@Body' + count +')=%%</strong>';
-      ampscript_html = ampscript_html + anchor;
-      $('#box').val(ampscript_html);
-      history.push({'ampscript_html': ampscript_html, 'is_counted': true});      
-      count++;
-    });
+    $('#variable').click(add_variable);
+    $('#anchor').click(add_anchor);
+    $('#paragraph').click(add_paragraph);
+    $('#bold').click(add_bold);
     $('#undo').click(function(){
       
       //alert(history.length);
@@ -60,6 +39,36 @@
       history.pop()
       $('#box').val(prev_ampscript_html);
     })
+    
+    function add_variable(){
+      ampscript_html = ampscript_html + "%%=v(@Body"+count+")=%%"
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html': ampscript_html, 'is_counted': true});
+      count++;
+    }
+    
+    function add_anchor(){
+      var anchor = '<a href="%%=RedirectTo(@UrlBody' + count + ')=%%">'+ '%%=v(@Body' + count +')=%%</a>';
+      ampscript_html = ampscript_html + anchor;
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html': ampscript_html, 'is_counted': true});
+      count++;
+    }
+    
+    function add_paragraph(){
+      ampscript_html = ampscript_html + "\n<br><br>\n\n";
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html':ampscript_html, 'is_counted': false});      
+    }
+    
+    function add_bold(){
+      var anchor = '<strong>'+'%%=v(@Body' + count +')=%%</strong>';
+      ampscript_html = ampscript_html + anchor;
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html': ampscript_html, 'is_counted': true});      
+      count++;
+    }
+    
   });
   </script>
 </head>
