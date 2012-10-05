@@ -26,6 +26,24 @@
     $('#bold').click(add_bold);
     $('#undo').click(undo)
     
+    $(document).keydown(function(event){
+      if (event.keyCode == 86){
+        $('#variable').click();
+      }
+      if (event.keyCode == 65){
+        $('#anchor').click();
+      }
+      if (event.keyCode == 80){
+        $('#paragraph').click();
+      }
+      if (event.keyCode == 66){
+        $('#bold').click();
+      }
+      if (event.keyCode == 85){
+        $('#undo').click();
+      }
+    });
+
     function add_variable(e){
       e.preventDefault();
       ampscript_html = ampscript_html + "%%=v(@Body"+count+")=%%"
