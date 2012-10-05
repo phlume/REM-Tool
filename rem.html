@@ -18,17 +18,55 @@
     var count = 1;
     var ampscript_html = "";
     var history = new Array();
+
     $('#variable').click(add_variable);
     $('#anchor').click(add_anchor);
     $('#paragraph').click(add_paragraph);
     $('#bold').click(add_bold);
-    $('#undo').click(function(){
-      
+    $('#undo').click(undo)
+    
+    function add_variable(e){
+      e.preventDefault();
+      ampscript_html = ampscript_html + "%%=v(@Body"+count+")=%%"
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html': ampscript_html, 'is_counted': true});
+      count++;
+    }
+    
+    function add_anchor(e){
+      e.preventDefault();
+      var anchor = '<a href="%%=RedirectTo(@UrlBody' + count + ')=%%">'+ '%%=v(@Body' + count +')=%%</a>';
+      ampscript_html = ampscript_html + anchor;
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html': ampscript_html, 'is_counted': true});
+      count++;
+    }
+    
+    function add_paragraph(e){
+      e.preventDefault();
+      ampscript_html = ampscript_html + "\n<br><br>\n\n";
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html':ampscript_html, 'is_counted': false});      
+    }
+    
+    function add_bold(e){
+      e.preventDefault();
+      var anchor = '<strong>'+'%%=v(@Body' + count +')=%%</strong>';
+      ampscript_html = ampscript_html + anchor;
+      $('#box').val(ampscript_html);
+      history.push({'ampscript_html': ampscript_html, 'is_counted': true});      
+      count++;
+    }
+    
+    function undo(e){
+      e.preventDefault();
       //alert(history.length);
-      obj = history[history.length-2];
-      var is_counted = obj.is_counted;
-      var prev_ampscript_html = obj.ampscript_html;
+      previous_previous_action = history[history.length-2];
       
+      previous_action = history[history.length-1];
+      var is_counted = previous_action.is_counted;
+      var prev_ampscript_html = previous_previous_action.ampscript_html;
+      alert(is_counted);
       if (is_counted) {
         count--;
       }
@@ -38,35 +76,6 @@
       //alert(count + ampscript_html);
       history.pop()
       $('#box').val(prev_ampscript_html);
-    })
-    
-    function add_variable(){
-      ampscript_html = ampscript_html + "%%=v(@Body"+count+")=%%"
-      $('#box').val(ampscript_html);
-      history.push({'ampscript_html': ampscript_html, 'is_counted': true});
-      count++;
-    }
-    
-    function add_anchor(){
-      var anchor = '<a href="%%=RedirectTo(@UrlBody' + count + ')=%%">'+ '%%=v(@Body' + count +')=%%</a>';
-      ampscript_html = ampscript_html + anchor;
-      $('#box').val(ampscript_html);
-      history.push({'ampscript_html': ampscript_html, 'is_counted': true});
-      count++;
-    }
-    
-    function add_paragraph(){
-      ampscript_html = ampscript_html + "\n<br><br>\n\n";
-      $('#box').val(ampscript_html);
-      history.push({'ampscript_html':ampscript_html, 'is_counted': false});      
-    }
-    
-    function add_bold(){
-      var anchor = '<strong>'+'%%=v(@Body' + count +')=%%</strong>';
-      ampscript_html = ampscript_html + anchor;
-      $('#box').val(ampscript_html);
-      history.push({'ampscript_html': ampscript_html, 'is_counted': true});      
-      count++;
     }
     
   });
